@@ -37,15 +37,15 @@ void ExampleLayer::OnAttach()
 	*/
 	
 	float vertices[] = {
-		-1.5f, -0.5f, 0.0f,
-		-0.5f, -0.5f, 0.0f,
-		-0.5f,  0.5f, 0.0f,
-		-1.5f,  0.5f, 0.0f,
+		-1.5f, -0.5f, 0.0f, 0.18f, 0.6f, 0.96f, 1.0f,
+		-0.5f, -0.5f, 0.0f, 0.18f, 0.6f, 0.96f, 1.0f,
+		-0.5f,  0.5f, 0.0f, 0.18f, 0.6f, 0.96f, 1.0f,
+		-1.5f,  0.5f, 0.0f, 0.18f, 0.6f, 0.96f, 1.0f,
 
-		 0.5f, -0.5f, 0.0f,
-		 1.5f, -0.5f, 0.0f,
-		 1.5f,  0.5f, 0.0f,
-		 0.5f,  0.5f, 0.0f
+		 0.5f, -0.5f, 0.0f, 1.0f, 0.93f, 0.24f, 1.0f,
+		 1.5f, -0.5f, 0.0f, 1.0f, 0.93f, 0.24f, 1.0f,
+		 1.5f,  0.5f, 0.0f, 1.0f, 0.93f, 0.24f, 1.0f,
+		 0.5f,  0.5f, 0.0f, 1.0f, 0.93f, 0.24f, 1.0f
 	};
 
 	// glCreateVertexArrays need >=4.5
@@ -58,7 +58,10 @@ void ExampleLayer::OnAttach()
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, 0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 7, 0);
+
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(float) * 7, (const void*)12);
 
 	/*
 	uint32_t indices[] = {
