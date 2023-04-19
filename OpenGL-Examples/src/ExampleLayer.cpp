@@ -4,6 +4,28 @@
 using namespace GLCore;
 using namespace GLCore::Utils;
 
+struct Vec2
+{
+	float x, y;
+};
+struct Vec3
+{
+	float x, y, z;
+};
+
+struct Vec4
+{
+	float x, y, z, w;
+};
+
+struct Vertex
+{
+	Vec3 Positions[3];
+	Vec4 Color[4];
+	Vec2 TexCoords[2];
+	float TexID;
+};
+
 ExampleLayer::ExampleLayer()
 	: m_CameraController(16.0f / 9.0f)
 {
@@ -33,6 +55,89 @@ static GLuint LoadTexture(const std::string& path)
 	return textureID;
 }
 
+static std::array<Vertex, 4> CreateQuad(float x, float y, float textureID)
+{
+	float size = 1.0f;
+
+	/*
+	* c++ 17
+	Vertex v0;
+	v0.Positions = { x, y, 0.0f };
+	v0.Color = { 0.18f, 0.6f, 0.96f, 1.0f };
+	v0.TexCoords = { 0.0f, 0.0f };
+	v0.TexID = textureID;
+
+	Vertex v1;
+	v1.Positions = { x + size, y, 0.0f };
+	v1.Color = { 0.18f, 0.6f, 0.96f, 1.0f };
+	v1.TexCoords = { 1.0f, 0.0f };
+	v1.TexID = textureID;
+
+	Vertex v2;
+	v2.Positions = { x + size, y + size, 0.0f };
+	v2.Color = { 0.18f, 0.6f, 0.96f, 1.0f };
+	v2.TexCoords = { 1.0f, 1.0f };
+	v2.TexID = textureID;
+
+	Vertex v3;
+	v3.Positions = { x, y + size, 0.0f };
+	v3.Color = { 0.18f, 0.6f, 0.96f, 1.0f };
+	v3.TexCoords = { 0.0f, 1.0f };
+	v3.TexID = textureID;
+	*/
+	Vertex v0;
+	v0.Positions[0] = {x, y, 0.0f};
+	v0.Positions[1] = { x, y, 0.0f };
+	v0.Positions[2] = { x, y, 0.0f };
+
+	v0.Color[0] = {0.18f, 0.6f, 0.96f, 1.0f};
+	v0.Color[1] = {0.18f, 0.6f, 0.96f, 1.0f};
+	v0.Color[2] = {0.18f, 0.6f, 0.96f, 1.0f};
+	v0.Color[3] = {0.18f, 0.6f, 0.96f, 1.0f};
+
+	v0.TexCoords[0] = {0.0f, 0.0f};
+	v0.TexCoords[1] = {0.0f, 0.0f};
+
+	v0.TexID = textureID;
+
+	Vertex v1;
+	v1.Positions[0] = {x + size, y, 0.0f};
+	v1.Positions[1] = {x + size, y, 0.0f};
+	v1.Positions[2] = {x + size, y, 0.0f};
+	v1.Color[0] = {0.18f, 0.6f, 0.96f, 1.0f};
+	v1.Color[1] = {0.18f, 0.6f, 0.96f, 1.0f};
+	v1.Color[2] = {0.18f, 0.6f, 0.96f, 1.0f};
+	v1.Color[3] = {0.18f, 0.6f, 0.96f, 1.0f};
+	v1.TexCoords[0] = {1.0f, 0.0f};
+	v1.TexCoords[1] = {1.0f, 0.0f};
+	v1.TexID = textureID;
+
+	Vertex v2;
+	v2.Positions[0] = {x + size, y + size, 0.0f};
+	v2.Positions[1] = {x + size, y + size, 0.0f};
+	v2.Positions[2] = {x + size, y + size, 0.0f};
+	v2.Color[0] = {0.18f, 0.6f, 0.96f, 1.0f};
+	v2.Color[1] = {0.18f, 0.6f, 0.96f, 1.0f};
+	v2.Color[2] = {0.18f, 0.6f, 0.96f, 1.0f};
+	v2.Color[3] = {0.18f, 0.6f, 0.96f, 1.0f};
+	v2.TexCoords[0] = {1.0f, 1.0f};
+	v2.TexCoords[1] = {1.0f, 1.0f};
+	v2.TexID = textureID;
+
+	Vertex v3;
+	v3.Positions[0] = {x, y + size, 0.0f};
+	v3.Positions[1] = {x, y + size, 0.0f};
+	v3.Positions[2] = {x, y + size, 0.0f};
+	v3.Color[0] = {0.18f, 0.6f, 0.96f, 1.0f};
+	v3.Color[1] = {0.18f, 0.6f, 0.96f, 1.0f};
+	v3.Color[2] = {0.18f, 0.6f, 0.96f, 1.0f};
+	v3.Color[3] = {0.18f, 0.6f, 0.96f, 1.0f};
+	v3.TexCoords[0] = {0.0f, 1.0f};
+	v3.TexCoords[1] = {0.0f, 1.0f};
+	v3.TexID = textureID;
+	return { v0, v1, v2, v3 };
+}
+
 void ExampleLayer::OnAttach()
 {
 	EnableGLDebugging();
@@ -60,6 +165,7 @@ void ExampleLayer::OnAttach()
 	*/
 	// 在vertex buffer中，除了 position 和 color，再存入一个 uv（texcoord，即 texture coordinate）
 	// 第10列 : 采样 texture
+	/*
 	float vertices[] = {
 		-1.5f, -0.5f, 0.0f, 0.18f, 0.6f, 0.96f, 1.0f, 0.0f, 0.0f, 0.0f,
 		-0.5f, -0.5f, 0.0f, 0.18f, 0.6f, 0.96f, 1.0f, 1.0f, 0.0f, 0.0f,
@@ -71,6 +177,7 @@ void ExampleLayer::OnAttach()
 		 1.5f,  0.5f, 0.0f, 1.0f, 0.93f, 0.24f, 1.0f, 1.0f, 1.0f, 1.0f,
 		 0.5f,  0.5f, 0.0f, 1.0f, 0.93f, 0.24f, 1.0f, 0.0f, 1.0f, 1.0f
 	};
+	*/
 
 	// glCreateVertexArrays need >=4.5
 	glGenVertexArrays(1, &m_QuadVA);
@@ -79,19 +186,19 @@ void ExampleLayer::OnAttach()
 	// glCreateBuffers need >=4.5
 	glGenBuffers(1, &m_QuadVB);
 	glBindBuffer(GL_ARRAY_BUFFER, m_QuadVB);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * 1000, nullptr, GL_DYNAMIC_DRAW);
 
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 10, 0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const void*)offsetof(Vertex, Positions));
 
 	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(float) * 10, (const void*)12);
+	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const void*)offsetof(Vertex, Color));
 
 	glEnableVertexAttribArray(2);
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 10, (const void*)28);
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const void*)offsetof(Vertex, TexCoords));
 
 	glEnableVertexAttribArray(3);
-	glVertexAttribPointer(3, 1, GL_FLOAT, GL_FALSE, sizeof(float) * 10, (const void*)36);
+	glVertexAttribPointer(3, 1, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const void*)offsetof(Vertex, TexID));
 
 	/*
 	uint32_t indices[] = {
@@ -150,6 +257,17 @@ void ExampleLayer::OnUpdate(Timestep ts)
 {
 	m_CameraController.OnUpdate(ts);
 
+	// Set dynamic vertex buffer
+	auto q0 = CreateQuad(m_Quadposition[0], m_Quadposition[1], 0.0f);
+	auto q1 = CreateQuad(0.5f, -0.5f, 1.0f);
+
+	Vertex vertices[8];
+	memcpy(vertices, q0.data(), q0.size() * sizeof(Vertex));
+	memcpy(vertices + q0.size(), q1.data(), q1.size() * sizeof(Vertex));
+
+	glBindBuffer(GL_ARRAY_BUFFER, m_QuadVB);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
+
 	glClearColor(0.6f, 0.6f, 0.6f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -183,11 +301,10 @@ void ExampleLayer::OnUpdate(Timestep ts)
 
 void ExampleLayer::OnImGuiRender()
 {
-	/*
 	ImGui::Begin("Controls");
-	if (ImGui::ColorEdit4("Square Base Color", glm::value_ptr(m_SquareBaseColor)))
-		m_SquareColor = m_SquareBaseColor;
-	ImGui::ColorEdit4("Square Alternate Color", glm::value_ptr(m_SquareAlternateColor));
+	//if (ImGui::ColorEdit4("Square Base Color", glm::value_ptr(m_SquareBaseColor)))
+		//m_SquareColor = m_SquareBaseColor;
+	//ImGui::ColorEdit4("Square Alternate Color", glm::value_ptr(m_SquareAlternateColor));
+	ImGui::DragFloat2("Quad Position", m_Quadposition, 0.1f);
 	ImGui::End();
-	*/
 }
