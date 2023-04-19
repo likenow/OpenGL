@@ -20,6 +20,8 @@ private:
 	
 	GLuint m_QuadVA, m_QuadVB, m_QuadIB;
 
+	GLuint m_ChernoTex, m_HazelTex;
+
 	glm::vec4 m_SquareBaseColor = { 0.8f, 0.2f, 0.3f, 1.0f };
 	glm::vec4 m_SquareAlternateColor = { 0.2f, 0.3f, 0.8f, 1.0f };
 	glm::vec4 m_SquareColor = m_SquareBaseColor;
