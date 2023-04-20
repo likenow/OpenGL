@@ -55,7 +55,7 @@ static GLuint LoadTexture(const std::string& path)
 	return textureID;
 }
 
-static std::array<Vertex, 4> CreateQuad(float x, float y, float textureID)
+static Vertex* CreateQuad(Vertex* target, float x, float y, float textureID)
 {
 	float size = 1.0f;
 
@@ -85,57 +85,56 @@ static std::array<Vertex, 4> CreateQuad(float x, float y, float textureID)
 	v3.TexCoords = { 0.0f, 1.0f };
 	v3.TexID = textureID;
 	*/
-	Vertex v0;
-	v0.Positions[0] = {x, y, 0.0f};
-	v0.Positions[1] = { x, y, 0.0f };
-	v0.Positions[2] = { x, y, 0.0f };
+	
+	target->Positions[0] = {x, y, 0.0f};
+	target->Positions[1] = { x, y, 0.0f };
+	target->Positions[2] = { x, y, 0.0f };
+	target->Color[0] = {0.18f, 0.6f, 0.96f, 1.0f};
+	target->Color[1] = {0.18f, 0.6f, 0.96f, 1.0f};
+	target->Color[2] = {0.18f, 0.6f, 0.96f, 1.0f};
+	target->Color[3] = {0.18f, 0.6f, 0.96f, 1.0f};
+	target->TexCoords[0] = {0.0f, 0.0f};
+	target->TexCoords[1] = {0.0f, 0.0f};
+	target->TexID = textureID;
+	target++; // increment the buffer pointer
 
-	v0.Color[0] = {0.18f, 0.6f, 0.96f, 1.0f};
-	v0.Color[1] = {0.18f, 0.6f, 0.96f, 1.0f};
-	v0.Color[2] = {0.18f, 0.6f, 0.96f, 1.0f};
-	v0.Color[3] = {0.18f, 0.6f, 0.96f, 1.0f};
+	target->Positions[0] = {x + size, y, 0.0f};
+	target->Positions[1] = {x + size, y, 0.0f};
+	target->Positions[2] = {x + size, y, 0.0f};
+	target->Color[0] = {0.18f, 0.6f, 0.96f, 1.0f};
+	target->Color[1] = {0.18f, 0.6f, 0.96f, 1.0f};
+	target->Color[2] = {0.18f, 0.6f, 0.96f, 1.0f};
+	target->Color[3] = {0.18f, 0.6f, 0.96f, 1.0f};
+	target->TexCoords[0] = {1.0f, 0.0f};
+	target->TexCoords[1] = {1.0f, 0.0f};
+	target->TexID = textureID;
+	target++; // increment the buffer pointer
 
-	v0.TexCoords[0] = {0.0f, 0.0f};
-	v0.TexCoords[1] = {0.0f, 0.0f};
+	target->Positions[0] = {x + size, y + size, 0.0f};
+	target->Positions[1] = {x + size, y + size, 0.0f};
+	target->Positions[2] = {x + size, y + size, 0.0f};
+	target->Color[0] = {0.18f, 0.6f, 0.96f, 1.0f};
+	target->Color[1] = {0.18f, 0.6f, 0.96f, 1.0f};
+	target->Color[2] = {0.18f, 0.6f, 0.96f, 1.0f};
+	target->Color[3] = {0.18f, 0.6f, 0.96f, 1.0f};
+	target->TexCoords[0] = {1.0f, 1.0f};
+	target->TexCoords[1] = {1.0f, 1.0f};
+	target->TexID = textureID;
+	target++; // increment the buffer pointer
 
-	v0.TexID = textureID;
+	target->Positions[0] = {x, y + size, 0.0f};
+	target->Positions[1] = {x, y + size, 0.0f};
+	target->Positions[2] = {x, y + size, 0.0f};
+	target->Color[0] = {0.18f, 0.6f, 0.96f, 1.0f};
+	target->Color[1] = {0.18f, 0.6f, 0.96f, 1.0f};
+	target->Color[2] = {0.18f, 0.6f, 0.96f, 1.0f};
+	target->Color[3] = {0.18f, 0.6f, 0.96f, 1.0f};
+	target->TexCoords[0] = {0.0f, 1.0f};
+	target->TexCoords[1] = {0.0f, 1.0f};
+	target->TexID = textureID;
+	target++; // increment the buffer pointer
 
-	Vertex v1;
-	v1.Positions[0] = {x + size, y, 0.0f};
-	v1.Positions[1] = {x + size, y, 0.0f};
-	v1.Positions[2] = {x + size, y, 0.0f};
-	v1.Color[0] = {0.18f, 0.6f, 0.96f, 1.0f};
-	v1.Color[1] = {0.18f, 0.6f, 0.96f, 1.0f};
-	v1.Color[2] = {0.18f, 0.6f, 0.96f, 1.0f};
-	v1.Color[3] = {0.18f, 0.6f, 0.96f, 1.0f};
-	v1.TexCoords[0] = {1.0f, 0.0f};
-	v1.TexCoords[1] = {1.0f, 0.0f};
-	v1.TexID = textureID;
-
-	Vertex v2;
-	v2.Positions[0] = {x + size, y + size, 0.0f};
-	v2.Positions[1] = {x + size, y + size, 0.0f};
-	v2.Positions[2] = {x + size, y + size, 0.0f};
-	v2.Color[0] = {0.18f, 0.6f, 0.96f, 1.0f};
-	v2.Color[1] = {0.18f, 0.6f, 0.96f, 1.0f};
-	v2.Color[2] = {0.18f, 0.6f, 0.96f, 1.0f};
-	v2.Color[3] = {0.18f, 0.6f, 0.96f, 1.0f};
-	v2.TexCoords[0] = {1.0f, 1.0f};
-	v2.TexCoords[1] = {1.0f, 1.0f};
-	v2.TexID = textureID;
-
-	Vertex v3;
-	v3.Positions[0] = {x, y + size, 0.0f};
-	v3.Positions[1] = {x, y + size, 0.0f};
-	v3.Positions[2] = {x, y + size, 0.0f};
-	v3.Color[0] = {0.18f, 0.6f, 0.96f, 1.0f};
-	v3.Color[1] = {0.18f, 0.6f, 0.96f, 1.0f};
-	v3.Color[2] = {0.18f, 0.6f, 0.96f, 1.0f};
-	v3.Color[3] = {0.18f, 0.6f, 0.96f, 1.0f};
-	v3.TexCoords[0] = {0.0f, 1.0f};
-	v3.TexCoords[1] = {0.0f, 1.0f};
-	v3.TexID = textureID;
-	return { v0, v1, v2, v3 };
+	return target;
 }
 
 void ExampleLayer::OnAttach()
@@ -154,6 +153,11 @@ void ExampleLayer::OnAttach()
 	auto loc = glGetUniformLocation(m_Shader->GetRendererID(), "u_Textures");
 	int samplers[2] = { 0, 1 };
 	glUniform1iv(loc, 2, samplers);
+
+	const size_t MaxQuadCount = 1000;
+	const size_t MaxVertexCount = MaxQuadCount * 4;
+	const size_t MaxIndexCount = MaxQuadCount * 6;
+
 	/*
 	float vertices[] = {
 		-0.5f, -0.5f, 0.0f,
@@ -186,7 +190,7 @@ void ExampleLayer::OnAttach()
 	// glCreateBuffers need >=4.5
 	glGenBuffers(1, &m_QuadVB);
 	glBindBuffer(GL_ARRAY_BUFFER, m_QuadVB);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * 1000, nullptr, GL_DYNAMIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, MaxQuadCount * sizeof(Vertex), nullptr, GL_DYNAMIC_DRAW);
 
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const void*)offsetof(Vertex, Positions));
@@ -206,10 +210,27 @@ void ExampleLayer::OnAttach()
 	};
 	
 	*/
+	/*
 	uint32_t indices[] = {
 		0, 1, 2, 2, 3, 0,
 		4, 5, 6, 6, 7, 4
 	};
+	*/
+	uint32_t indices[MaxIndexCount];
+	uint32_t offset = 0;
+	for (size_t i = 0; i < MaxIndexCount; i += 6)
+	{
+		indices[i + 0] = 0 + offset;
+		indices[i + 1] = 1 + offset;
+		indices[i + 2] = 2 + offset;
+
+		indices[i + 3] = 2 + offset;
+		indices[i + 4] = 3 + offset;
+		indices[i + 5] = 0 + offset;
+
+		offset += 4;
+	}
+
 	// glCreateBuffers need >=4.5
 	glGenBuffers(1, &m_QuadIB);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_QuadIB);
@@ -257,6 +278,20 @@ void ExampleLayer::OnUpdate(Timestep ts)
 {
 	m_CameraController.OnUpdate(ts);
 
+	uint32_t indexCount = 0;
+	std::array<Vertex, 1000> vertices;
+	Vertex* buffer = vertices.data();
+	for (int y = 0; y < 5; y++)
+	{
+		for (int x = 0; x < 5; x++)
+		{
+			buffer = CreateQuad(buffer, x, y, (x+y)%2);
+			indexCount += 6;
+		}
+	}
+	buffer = CreateQuad(buffer, m_Quadposition[0], m_Quadposition[1], 0.0f);
+	indexCount += 6;
+	/*
 	// Set dynamic vertex buffer
 	auto q0 = CreateQuad(m_Quadposition[0], m_Quadposition[1], 0.0f);
 	auto q1 = CreateQuad(0.5f, -0.5f, 1.0f);
@@ -264,14 +299,15 @@ void ExampleLayer::OnUpdate(Timestep ts)
 	Vertex vertices[8];
 	memcpy(vertices, q0.data(), q0.size() * sizeof(Vertex));
 	memcpy(vertices + q0.size(), q1.data(), q1.size() * sizeof(Vertex));
+	*/
 
 	glBindBuffer(GL_ARRAY_BUFFER, m_QuadVB);
-	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, vertices.size() * sizeof(Vertex), vertices.data());
 
 	glClearColor(0.6f, 0.6f, 0.6f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	//glUseProgram(m_Shader->GetRendererID());
+	glUseProgram(m_Shader->GetRendererID());
 	//glBindTextureUnit(0, m_ChernoTex);
 	//glBindTextureUnit(1, m_HazelTex);
 
@@ -285,7 +321,7 @@ void ExampleLayer::OnUpdate(Timestep ts)
 	SetUniformMat4(m_Shader->GetRendererID(), "u_Transform", glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f)));
 
 	glBindVertexArray(m_QuadVA);
-	glDrawElements(GL_TRIANGLES, 12, GL_UNSIGNED_INT, nullptr);
+	glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, nullptr);
 
 	/*
 	// glDrawElements twice
